@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import styles from '@/app/ui/page.module.css';
+import styles from '@/app/ui/invoice-voice.module.css';
 
 interface Item {
   name: string;
@@ -58,7 +58,6 @@ export default function Page() {
   const [transcript, setTranscript] = useState('"..."');
   const [waveBars, setWaveBars] = useState<number[]>(Array(10).fill(6));
   const [waveOpacities, setWaveOpacities] = useState<number[]>(Array(10).fill(1));
-  const [clock, setClock] = useState('');
 
   const sampleIndexRef = useRef(0);
   const recordTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -66,20 +65,6 @@ export default function Page() {
   const waveTimerRef = useRef<NodeJS.Timeout | null>(null);
   const itemListRef = useRef<HTMLDivElement>(null);
   const isRecordingRef = useRef(false);
-
-  // Clock
-  useEffect(() => {
-    const updateClock = () => {
-      const now = new Date();
-      setClock(
-        now.getHours().toString().padStart(2, '0') + ':' +
-        now.getMinutes().toString().padStart(2, '0')
-      );
-    };
-    updateClock();
-    const interval = setInterval(updateClock, 30000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Auto-scroll to bottom when items change
   useEffect(() => {
@@ -161,16 +146,6 @@ export default function Page() {
 
   return (
     <div className={styles.app}>
-      {/* Status bar */}
-      <div className={styles.statusBar}>
-        <span>{clock}</span>
-        <svg width="18" height="12" viewBox="0 0 28 14" fill="#1a1a1a">
-          <rect x="0" y="1" width="22" height="12" rx="2" stroke="#1a1a1a" strokeWidth="1.5" fill="none" />
-          <rect x="3" y="3.5" width="14" height="7" rx="1" />
-          <rect x="23" y="4.5" width="3" height="5" rx="1" />
-        </svg>
-      </div>
-
       {/* Header */}
       <div className={styles.header}>
         <h1>Voice memo</h1>
